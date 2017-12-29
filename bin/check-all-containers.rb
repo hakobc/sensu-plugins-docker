@@ -1,4 +1,4 @@
-#!/opt/sensu/embedded/bin/ruby
+#! /usr/bin/env ruby
 #   check-container
 #
 # DESCRIPTION:
@@ -54,12 +54,9 @@ class CheckDockerContainer < Sensu::Plugin::Check::CLI
 
   def run
     containerlist = %x[docker ps -a |cut -d" " -f1 |grep -v CONTAINER].split("\n")
-    #puts containerlist
     containerlist.each do |container|
-      puts container
       client = create_docker_client
       path = "/containers/#{container}/json"
-      #path = "/containers/#{config[:container]}/json"
       req = Net::HTTP::Get.new path
       begin
         response = client.request(req)
